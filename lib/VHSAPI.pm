@@ -78,9 +78,10 @@ get '/s/:spacename/data/:dataname/update' => sub {
     my $value    = params->{value};
 
     # Sanitize data names and values
-    my $sanitize_rx = qr/[^A-Za-z0-9_\-]/;
-    $dataname =~ s/$sanitize_rx//g;
-    $value    =~ s/$sanitize_rx//g;
+    my $sanitize_rx_n = qr/[^A-Za-z0-9_\-]/;
+    my $sanitize_rx_v = qr/[^A-Za-z0-9_\-: ]/;
+    $dataname =~ s/$sanitize_rx_n//g;
+    $value    =~ s/$sanitize_rx_v//g;
 
     my $dp    = $space->datapoint($dataname);
     if ($dp) {
@@ -99,8 +100,16 @@ get '/s/:spacename/data/:dataname.js' => sub {
     content_type 'application/javascript';
     template 'data-widget', {
         space => $space,
-        datapoint => $space->datapoint(params->{dataname}),
+        datapoint => $space->datapoint(params->{dataname})
      }, {layout => undef };
+};
+
+get '/s/:spacename/data/:dataname1/:dataname2/fullpage' => sub {
+    my $space = vars->{space} or redirect '/';
+    template 'data-dual-full', {
+        datapoint1 => encode_entities($space->datapoint(params->{dataname1})),
+        datapoint2 => encode_entities($space->datapoint(params->{dataname2}))
+        }, {layout => undef};
 };
 
 get '/s/:spacename/data/:dataname/fullpage' => sub {
