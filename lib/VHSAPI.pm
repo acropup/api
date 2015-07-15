@@ -79,7 +79,7 @@ get '/s/:spacename/data/:dataname/update' => sub {
 
     # Sanitize data names and values
     my $sanitize_rx_n = qr/[^A-Za-z0-9_\-]/;
-    my $sanitize_rx_v = qr/[^A-Za-z0-9_\-: ]/;
+    my $sanitize_rx_v = qr/[^A-Za-z0-9_\-\.: ]/;
     $dataname =~ s/$sanitize_rx_n//g;
     $value    =~ s/$sanitize_rx_v//g;
 
