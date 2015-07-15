@@ -5,7 +5,7 @@ upstream hackspace_api {
 server {
     server_name www.isvhsopen.com isvhsopen.com;
     location / {
-        proxy_pass http://hackspace_api/s/vhs/data/door/fullpage;
+        proxy_pass http://hackspace_api/s/vhs/data/door/isvhsopen_until/fullpage;
         break;
     }
 }
